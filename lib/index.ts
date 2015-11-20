@@ -142,7 +142,11 @@ function terminateMacLinux(process: ChildProcess): Promise<number> {
 }
 
 function escapeWinArg(arg: string) {
-    if(arg.indexOf(" ") != -1) {
+    
+    // Check if contains space and if it needs escaping
+    if(arg && arg.indexOf(" ") !== -1 && arg[0] !== '"' && arg[arg.length - 1] !== '"') {
         return `"${arg}"`;
     }
+    
+    return arg;
 }
