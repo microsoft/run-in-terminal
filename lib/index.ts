@@ -60,7 +60,7 @@ function runInTerminalWin(file: string, args: string[], options: Options): Promi
         '/wait',
         'cmd.exe',
         '/c',
-        `"${file} ${args.join(' ') } & pause"`
+        `"${file} ${args.map(escapeWinArg).join(' ') } & pause"`
     ];
 
     options = options || <any>{};
@@ -138,5 +138,11 @@ function terminateMacLinux(process: ChildProcess): Promise<number> {
             });
             process.kill('SIGTERM');
         });
+    }
+}
+
+function escapeWinArg(arg: string) {
+    if(arg.indexOf(" ") != -1) {
+        return `"${arg}"`;
     }
 }
