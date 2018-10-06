@@ -27,22 +27,21 @@ export function runInTerminal(command: string, args?: string[], options?: Option
     });
 }
 
-var _terminalSpawn = /^win/.test(process.platform)
+const _terminalSpawn = /^win/.test(process.platform)
     ? runInTerminalWin
     : process.platform === 'darwin'
         ? runInTerminalMac
         : runInTerminalLinux;
 
 
-var _terminate = /^win/.test(process.platform)
+const _terminate = /^win/.test(process.platform)
     ? terminateWin
     : terminateMacLinux;
 
 
 function promiseSpawn(command: string, args: string[], options: any): Promise<ChildProcess> {
     return new Promise((resolve, reject) => {
-
-        let childProcess = spawn(command, args, options);
+        const childProcess = spawn(command, args, options);
         childProcess.on('error', reject);
         
         // give process a change to emit 
