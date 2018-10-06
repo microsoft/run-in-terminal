@@ -15,6 +15,10 @@ export interface Options {
     detached?: boolean;
 }
 
+class DefaultOptions implements Options {
+    cwd: string = process.cwd();
+}
+
 export
 interface TerminalChildProcess extends ChildProcess {
     kill2(): Promise<number>;
@@ -24,7 +28,7 @@ export
 function runInTerminal(
     command: string,
     args?: string[],
-    options?: Options
+    options: Options = new DefaultOptions()
 ): Promise<TerminalChildProcess> {
     return _terminalSpawn(command, args || [], options)
         .then(value => {
