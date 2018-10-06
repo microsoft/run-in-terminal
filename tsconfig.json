@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "lib": ["es2015"],
         "target": "ES5",
         "module": "commonjs",
         "declaration": true
