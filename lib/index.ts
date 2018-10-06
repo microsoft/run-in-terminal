@@ -171,7 +171,7 @@ function terminateMacLinux(process: ChildProcess): Promise<number> {
 }
 
 function escapeWinArg(arg: string) {
-    if (/"[^"]+"/.test(arg) && arg.includes(" ")) {
+    if (!/^"[^"]+"$/.test(arg) && arg.includes(" ")) {
         return `"${arg}"`;
     }
 
