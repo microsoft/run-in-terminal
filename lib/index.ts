@@ -25,17 +25,12 @@ interface TerminalChildProcess extends ChildProcess {
 }
 
 export
-function runInTerminal(
-    command: string,
-    args?: string[],
-    options: Options = new DefaultOptions()
-): Promise<TerminalChildProcess> {
-    return _terminalSpawn(command, args || [], options)
-        .then(value => {
-            const result = <TerminalChildProcess> value;
-            result.kill2 = () => _terminate(value);
-            return result;
-        });
+function runInTerminal(command: string, args?: string[], options: Options = new DefaultOptions()): Promise<TerminalChildProcess> {
+    return _terminalSpawn(command, args || [], options).then(value => {
+        const result = <TerminalChildProcess> value;
+        result.kill2 = () => _terminate(value);
+        return result;
+    });
 }
 
 const _terminalSpawn = /^win/.test(process.platform)
@@ -50,11 +45,7 @@ const _terminate = /^win/.test(process.platform)
     : terminateMacLinux;
 
 
-function promiseSpawn(
-    command: string,
-    args: string[],
-    options: any
-): Promise<ChildProcess> {
+function promiseSpawn(command: string, args: string[], options: any): Promise<ChildProcess> {
     return new Promise((resolve, reject) => {
         const childProcess = spawn(command, args, options);
         childProcess.on('error', reject);
@@ -64,11 +55,7 @@ function promiseSpawn(
     });
 }
 
-function runInTerminalWin(
-    file: string,
-    args: string[],
-    options: Options
-): Promise<ChildProcess> {
+function runInTerminalWin(file: string, args: string[], options: Options): Promise<ChildProcess> {
     // we use `start` to get another cmd.exe where `& pause` can be handled
     args = [
         '/c',
@@ -85,11 +72,7 @@ function runInTerminalWin(
     return promiseSpawn('cmd.exe', args, options);
 }
 
-function runInTerminalMac(
-    file: string,
-    args: string[],
-    options: Options
-): Promise<ChildProcess> {
+function runInTerminalMac(file: string, args: string[], options: Options): Promise<ChildProcess> {
 
     args = [
         join(__dirname, 'launcher.scpt'),
@@ -100,11 +83,7 @@ function runInTerminalMac(
     return promiseSpawn('/usr/bin/osascript', args, options);
 }
 
-function runInTerminalLinux(
-    file: string,
-    args: string[],
-    options: Options
-): Promise<ChildProcess> {
+function runInTerminalLinux(file: string, args: string[], options: Options): Promise<ChildProcess> {
 
     // '/usr/bin/x-terminal-emulator'
     const LINUX_TERM = '/usr/bin/gnome-terminal';
