@@ -2,5 +2,13 @@
   "version": "0.0.3",
   "name": "run-in-terminal",
   "main": "lib/index.js",
-  "typings": "lib/index.d.ts"
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "watch": "tsc --watch",
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@types/node": "^10.11.4"
+  },
+  "devDependencies": {}
 }
